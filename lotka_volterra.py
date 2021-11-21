@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 #exponential growth of the prey population
 def plot_expon_system(x_init, y_init, t_start, t_stop, _a,_b,_d,_g, dt):
 
@@ -48,6 +49,10 @@ def plot_log_system(x_init, y_init, t_start, t_stop, _a,_b,_d,_g,_K, dt):
 
 	return [t_list,x_list,y_list]
 
+
+
+
+
 def exp_dxdy(x,y):
 	dx = (_a*x - _b*x*y)
 	dy = (_d*x*y - _g*y)
@@ -57,6 +62,7 @@ def log_dxdy(x,y):
 	dx = ((_a*x*(_K - x)/_K)-_b*x*y)
 	dy = (_d*x*y - _g*y)
 	return ([dx,dy])
+
 
 def vector_field(mode, x_max, y_max):
 
@@ -79,16 +85,19 @@ def vector_field(mode, x_max, y_max):
 	return ([DX,DY])
 
 
+###################
+### DRIVER CODE ###
+###################
 if __name__ == "__main__":
 
 	x_init = 5
 	y_init = 6
 	t_start = 0 
 	t_stop = 100
-	_a = 0.7
-	_b = 0.6
-	_d = 0.5 
-	_g = 0.4
+	_a = 1
+	_b = 1
+	_d = 1 
+	_g = 1
 	_K = 10
 	dt = 0.01
 
@@ -112,6 +121,16 @@ if __name__ == "__main__":
 	axs[0,0].set_title("Exponential Growth of the Predator-Prey population")
 	axs[0,1].set_title("Logistic Growth of the Predator-Prey population")
 
+	axs[0,0].set_ylabel("Species Population")
+	axs[0,1].set_ylabel("Species Population")
+	axs[0,0].set_xlabel("Time t")
+	axs[0,1].set_xlabel("Time t")
+
+	axs[1,0].set_ylabel("Predator Population")
+	axs[1,1].set_ylabel("Predator Population")
+	axs[1,0].set_xlabel("Prey Population")
+	axs[1,1].set_xlabel("Prey Population")
+
 	axs[0,0].plot(E[0],E[1], 'g', label="prey", linewidth=2)
 	axs[0,0].plot(E[0],E[2], 'r', label="pred", linewidth=2)
 
@@ -123,11 +142,12 @@ if __name__ == "__main__":
 	
 	axs[1,1].plot(L[1],L[2], 'b', label="log", linewidth=2)
 	axs[1,1].quiver(LX1, LY1, log_v[0], log_v[1], pivot='mid', cmap=plt.cm.plasma)
-
+	
 	axs[0,0].legend(loc="upper right")
 	axs[0,1].legend(loc="upper right")
 	axs[1,0].legend(loc="upper right")
 	axs[1,1].legend(loc="upper right")
+
 
 	plt.show()
 	plt.close()
