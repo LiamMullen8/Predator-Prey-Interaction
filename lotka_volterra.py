@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 #exponential growth of the prey population
 def plot_expon_system(x_init, y_init, t_start, t_stop, _a,_b,_d,_g, dt):
 
@@ -49,8 +48,10 @@ def plot_log_system(x_init, y_init, t_start, t_stop, _a,_b,_d,_g,_K, dt):
 
 	return [t_list,x_list,y_list]
 
-
-
+#############################################################################################
+#############################################################################################
+#############################################################################################
+#############################################################################################
 
 
 def exp_dxdy(x,y):
@@ -76,6 +77,7 @@ def vector_field(mode, x_max, y_max):
 	DX=DXDY[0]
 	DY=DXDY[1]
 
+	# mormalize 
 	M = (np.hypot(DX, DY))
 	M[ M == 0] = 1.
 
@@ -91,15 +93,15 @@ def vector_field(mode, x_max, y_max):
 if __name__ == "__main__":
 
 	x_init = 5
-	y_init = 6
+	y_init = 5
 	t_start = 0 
-	t_stop = 100
+	t_stop = 125
 	_a = 1
 	_b = 1
-	_d = 1 
+	_d = 1
 	_g = 1
 	_K = 10
-	dt = 0.01
+	dt = .01
 
 	E = plot_expon_system(x_init, y_init, t_start, t_stop, _a, _b, _d, _g, dt)
 	L = plot_log_system(x_init, y_init, t_start, t_stop, _a, _b, _d, _g, _K, dt)
@@ -137,11 +139,22 @@ if __name__ == "__main__":
 	axs[0,1].plot(L[0],L[1], 'g', label="prey", linewidth=2)
 	axs[0,1].plot(L[0],L[2], 'r', label="pred",linewidth=2)
 
-	axs[1,0].plot(E[1],E[2], 'b', label="exp", linewidth=2)
+
+	# axs[1,0].plot(E[1],E[2], 'b', label="exp", linewidth=1)
+	axs[1,0].plot(E[1],E[2], 'b', linewidth=1)
 	axs[1,0].quiver(EX1, EY1, exp_v[0], exp_v[1], pivot='mid', cmap=plt.cm.plasma)
 	
-	axs[1,1].plot(L[1],L[2], 'b', label="log", linewidth=2)
-	axs[1,1].quiver(LX1, LY1, log_v[0], log_v[1], pivot='mid', cmap=plt.cm.plasma)
+	axs[1,0].axvline(x=_g/_d, color='r', label="pred nullcline")
+	axs[1,0].axhline(y=_a/_b, color='g', label="prey nullcline")
+
+
+	# axs[1,1].plot(L[1],L[2], 'b', label="log", linewidth=1)
+	axs[1,1].plot(L[1],L[2], 'b', linewidth=1)
+	axs[1,1].quiver(LX1, LY1, log_v[0], log_v[1],pivot='mid', cmap=plt.cm.plasma)
+
+	axs[1,1].axvline(x=_g/_d, color='r', label="pred nullcline")
+	axs[1,1].axhline(y=((_a/_b)*(1.0-(_g/(_d*_K)))), color='g', label="prey nullcline")
+	
 	
 	axs[0,0].legend(loc="upper right")
 	axs[0,1].legend(loc="upper right")
